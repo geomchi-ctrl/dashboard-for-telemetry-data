@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard de Telemetria do Carrinho</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <script>
+        function updateTelemetry() {
+            fetch('/get_telemetry')
+                .then(response => response.json())
+                .then(data => {
+                    document.getElementById('current').innerText = `${data.current} mA`;
+                    document.getElementById('speed').innerText = `${data.speed} PWM`;
+                    document.getElementById('motor_state2').innerText = `${data.motor_state2}`;
+                    document.getElementById('wifi-state').innerText = `${data.wifi_state}`;
+                    document.getElementById('motor_state1').innerText = `${data.motor_state1}`;
+                })
+                .catch(error => console.error('Erro ao obter dados:', error));
+        }
+
+        // Atualiza os dados a cada 1 segundo
+        setInterval(updateTelemetry, 1000);
+    </script>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Dashboard de Telemetria do Carrinho</h1>
+        </header>
+        <main>
+            <div class="grid">
+                <div class="data-card">
+                    <h2>Corrente</h2>
+                    <p id="current">0.0 mA</p>
+                </div>
+                <div class="data-card">
+                    <h2>Velocidade</h2>
+                    <p id="speed">0</p>
+                </div>
+                <div class="data-card">
+                    <h2>Estado do Motor de Tração</h2>
+                    <p id="motor_state1">Desligado</p>
+                </div>
+                <div class="data-card">
+                    <h2>Estado do Motor de Direção</h2>
+                    <p id="motor_state2">Desligado</p>
+                </div>
+                <div class="data-card">
+                    <h2>Conexão WiFi</h2>
+                    <p id="wifi-state">Desligado</p>
+                </div>
+            </div>
+        </main>
+        <footer>
+            <p>&copy; 2024 - Linguagem de Programação 1</p>
+        </footer>
+    </div>
+</body>
+</html>
